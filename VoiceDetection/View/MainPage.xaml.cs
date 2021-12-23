@@ -46,11 +46,13 @@ namespace VoiceDetection.View
             //}
         }
 
-        private async void SpeachToText()
+        private void SpeachToText()
         {
             KakaoAPI api = new KakaoAPI();
-            string path = @"C:\Users\media\Downloads";
-            string result = await api.GetVoiceJson(path);
+            string path = @"C:\Users\media\Downloads\heykakao.wav";
+            string result = api.GetVoiceJsonRest(path);
+
+            Console.WriteLine(result);
         }
 
     }
