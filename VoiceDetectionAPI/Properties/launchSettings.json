@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VoiceDetectionKakao": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\media\\Documents\\GitHub\\VoiceDetection\\VoiceDetection\\bin\\Debug"
+    }
+  }
+}

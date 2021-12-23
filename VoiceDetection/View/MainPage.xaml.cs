@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VoiceDetectionKakao.API;
 using VoiceDetectionKakao.Data;
+using VoiceDetection.Model;
 
 namespace VoiceDetection.View
 {
@@ -31,12 +32,26 @@ namespace VoiceDetection.View
 
         private void SpeakButtonClick(object sender, EventArgs e)
         {
-            if(isRecording == false)
-                isRecording = true;
-            else
-                isRecording = false;
+            SpeachToText();
 
-                
+            //VoiceRecorder recorder = new VoiceRecorder();
+            //if (recorder.IsRecording == false) //녹음 시작
+            //{
+            //    recorder.StartRecordVoice();
+            //}
+            //else if(recorder.IsRecording == true)
+            //{
+            //    recorder.StopRecordVoice();
+            //    SpeachToText();
+            //}
         }
+
+        private async void SpeachToText()
+        {
+            KakaoAPI api = new KakaoAPI();
+            string path = @"C:\Users\media\Downloads";
+            string result = await api.GetVoiceJson(path);
+        }
+
     }
 }
