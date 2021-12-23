@@ -1,0 +1,19 @@
+<Application x:Class="VoiceDetection.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:VoiceDetection"
+             StartupUri="MainWindow.xaml"
+             xmlns:vm="clr-namespace:VoiceDetection.ViewModel"
+             xmlns:view="clr-namespace:VoiceDetection.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ignore="http://www.galasoft.ch/ignore" mc:Ignorable="d ignore">
+    <Application.Resources>
+        <ResourceDictionary>
+            <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
+            <DataTemplate DataType="{x:Type vm:MainPageModel}">
+                <view:MainPage />
+            </DataTemplate>
+        </ResourceDictionary>
+  </Application.Resources>
+</Application>
