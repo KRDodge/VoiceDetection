@@ -9,6 +9,6 @@
              d:DesignHeight="900" d:DesignWidth="1600">
     <Grid>
         <Button Name="SpeakButton" Click="SpeakButtonClick" Content="Button" HorizontalAlignment="Left" Margin="45,30,0,0" VerticalAlignment="Top" Height="75" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="-1430,-110,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="260" Width="1500"/>
+        <TextBlock Name="SpeakTextBlock" HorizontalAlignment="Left" Margin="45,140,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="260" Width="1500"/>
     </Grid>
 </UserControl>

@@ -12,8 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using VoiceDetectionKakao.API;
-using VoiceDetectionKakao.Data;
+//using VoiceDetectionKakao.API;
+using VoiceDetectionGoogle.API;
 using VoiceDetection.Model;
 
 namespace VoiceDetection.View
@@ -23,7 +23,7 @@ namespace VoiceDetection.View
     /// </summary>
     public partial class MainPage : UserControl
     {
-        private bool isRecording = false;
+        //private bool isRecording = false;
 
         public MainPage()
         {
@@ -48,9 +48,11 @@ namespace VoiceDetection.View
 
         private void SpeachToText()
         {
-            KakaoAPI api = new KakaoAPI();
+            GoogleAPI api = new GoogleAPI();
             string path = @"C:\Users\media\Downloads\heykakao.wav";
-            string result = api.GetVoiceJsonRest(path);
+            string result = api.GoogleCloudSpeech(path);
+
+            SpeakTextBlock.Text = result;
 
             Console.WriteLine(result);
         }
