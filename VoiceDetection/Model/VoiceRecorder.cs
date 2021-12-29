@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CSCore;
+using CSCore.SoundIn;
+using CSCore.Codecs.WAV;
+using System;
 using System.Windows.Threading;
 using System.Windows.Forms;
 
@@ -10,31 +9,78 @@ namespace VoiceDetection.Model
 {
     public class VoiceRecorder
     {
-        //[DllImport("winmm.dll", EntryPoint = "mciSendStringA", ExactSpelling = true, CharSet = CharSet.Ansi, SetLastError = true)]
-        private static extern int mciSendString(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
-        private bool m_isRecording = false;
+        private static VoiceRecorder instance;
 
-        public bool IsRecording { get { return m_isRecording; }}
+        NAudio.Wave.WaveIn sourceStream = null;
+        NAudio.Wave.DirectSoundOut waveOut = null;
+        NAudio.Wave.WaveFileWriter waveWriter = null;
 
-        public void StartRecordVoice()
+        private bool isRecording = false;
+        public bool IsRecording { get { return isRecording; } set { isRecording = value; } }
+
+        public VoiceRecorder()
         {
-            mciSendString("open new Type waveaudio Alias recsound", null, 0, 0);
-            mciSendString("record recsound", "", 0, 0);
+            
+        }
+
+        public static VoiceRecorder GetInstance()
+        {
+            if (instance == null)
+                instance = new VoiceRecorder();
+            return instance;
+        }
+
+        public void StartRecordVoice(int _sourceNumber)
+        {
+            sourceStream = new NAudio.Wave.WaveIn();
+            sourceStream.DeviceNumber = _sourceNumber;
+            sourceStream.WaveFormat = new NAudio.Wave.WaveFormat(16000, NAudio.Wave.WaveIn.GetCapabilities(_sourceNumber).Channels);
+
+            sourceStream.DataAvailable += new EventHandler<NAudio.Wave.WaveInEventArgs>(sourceStream_DataAvailable);
+            waveWriter = new NAudio.Wave.WaveFileWriter(@"C:\Users\media\Documents\test.wav", sourceStream.WaveFormat);
+
+            sourceStream.StartRecording();
 
             DispatcherTimer pollingTimer = new DispatcherTimer();
             pollingTimer.Stop();
-            pollingTimer.Interval = TimeSpan.FromSeconds(10);
+            pollingTimer.Interval = TimeSpan.FromSeconds(14);
             pollingTimer.Tick += new EventHandler(StopRecordVoice);
             pollingTimer.Start();
 
-            m_isRecording = true;
+            isRecording = true;
         }
 
         public void StopRecordVoice()
         {
-            mciSendString("save recsound C:\\Users\\media\test.wav", null, 0, 0);
-            mciSendString("close Sound ", null, 0, 0);
-            m_isRecording = false;
+
+            if (waveOut != null)
+            {
+                waveOut.Stop();
+                waveOut.Dispose();
+                waveOut = null;
+            }
+            if (sourceStream != null)
+            {
+                sourceStream.StopRecording();
+                sourceStream.Dispose();
+                sourceStream = null;
+            }
+            if(waveWriter != null)
+            {
+                waveWriter.Dispose();
+                waveWriter = null;
+            }
+
+            isRecording = false;
+        }
+
+        public void sourceStream_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
+        {
+            if (waveWriter == null)
+                return;
+
+            waveWriter.WriteData(e.Buffer, 0, e.BytesRecorded);
+            waveWriter.Flush();
         }
 
         public void StopRecordVoice(object sender, EventArgs e)

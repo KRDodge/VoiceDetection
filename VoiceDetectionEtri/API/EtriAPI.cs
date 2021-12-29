@@ -6,9 +6,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
-using Google.Cloud.Speech.V1;
-using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Storage.V1;
 
 /// <summary>
 /// 구글은 Nuget으로 따로 제공
@@ -17,7 +14,7 @@ using Google.Cloud.Storage.V1;
 
 namespace VoiceDetectionGoogle.API
 {
-    public class GoogleAPI
+    public class EtriAPI
     {
         public string GetVoiceJson(JObject _json)
         {
@@ -76,73 +73,6 @@ namespace VoiceDetectionGoogle.API
         public void GetVoiceData(string message) //안쓰는 함수 일단 냅둠
         {
             
-        }
-
-        public string GoogleCloudSpeech(string _file)
-        {
-            string result = "";
-
-            if (File.Exists(_file) == false)
-                return result;
-
-
-            var credential = GoogleCredential.GetApplicationDefault();
-            var storage = StorageClient.Create(credential);
-            // Make an authenticated API request.
-            var buckets = storage.ListBuckets("airy-strength-335906");
-            foreach (var bucket in buckets)
-            {
-                Console.WriteLine(bucket.Name);
-            }
-
-            string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
-            string FilePath = _file;
-            FileStream fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read);
-            byte[] fileData = new byte[fs.Length];
-            fs.Read(fileData, 0, fileData.Length);
-            fs.Close();
-
-            string CRLF = "\r\n";
-            string postData = "--" + boundary + CRLF + "Content-Disposition: form-data; name=\"image\"; filename=\"";
-            postData += Path.GetFileName(FilePath) + "\"" + CRLF + "Content-Type: image/jpeg" + CRLF + CRLF;
-            string footer = CRLF + "--" + boundary + "--" + CRLF;
-
-            Stream DataStream = new MemoryStream();
-            DataStream.Write(Encoding.UTF8.GetBytes(postData), 0, Encoding.UTF8.GetByteCount(postData));
-            DataStream.Write(fileData, 0, fileData.Length);
-            DataStream.Write(Encoding.UTF8.GetBytes("\r\n"), 0, 2);
-            DataStream.Write(Encoding.UTF8.GetBytes(footer), 0, Encoding.UTF8.GetByteCount(footer));
-            DataStream.Position = 0;
-            byte[] formData = new byte[DataStream.Length];
-            DataStream.Read(formData, 0, formData.Length);
-            DataStream.Close();
-
-            RecognitionAudio audio4 = RecognitionAudio.FromBytes(formData);
-
-            //MemoryStream ms = new MemoryStream(binary);
-
-            //using (Stream stream = ms) // Any regular .NET stream
-            //{
-            //    RecognitionAudio audio5 = RecognitionAudio.FromStream(stream);
-            //    result = audio5.ToString();
-            //}
-
-            SpeechClient client = SpeechClient.Create();
-            RecognitionConfig config = new RecognitionConfig
-            {
-                Encoding = RecognitionConfig.Types.AudioEncoding.Linear16,
-                SampleRateHertz = 16000,
-                LanguageCode = LanguageCodes.Korean.SouthKorea,
-            };
-            RecognizeResponse response = client.Recognize(config, audio4);
-
-            JObject json = new JObject();
-            string jsonString = response.ToString();
-            json = JObject.Parse(jsonString);
-            result = GetVoiceJson(json);
-
-
-            return result;
         }
     }
 }

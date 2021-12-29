@@ -10,5 +10,12 @@
     <Grid>
         <Button Name="SpeakButton" Click="SpeakButtonClick" Content="Button" HorizontalAlignment="Left" Margin="45,30,0,0" VerticalAlignment="Top" Height="75" Width="120"/>
         <TextBlock Name="SpeakTextBlock" HorizontalAlignment="Left" Margin="45,140,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="260" Width="1500"/>
+        <ListView Name="InputListView" Margin="45,450,55,320">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>
