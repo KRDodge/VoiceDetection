@@ -187,6 +187,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VoiceDetectionEtri\VoiceDetectionEtri.csproj">
+      <Project>{c443926c-454c-4639-8d27-b3eb8bf23533}</Project>
+      <Name>VoiceDetectionEtri</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VoiceDetectionGoogle\VoiceDetectionGoogle.csproj">
       <Project>{f07ecc8b-501c-4def-8c8e-7268278b05d8}</Project>
       <Name>VoiceDetectionGoogle</Name>

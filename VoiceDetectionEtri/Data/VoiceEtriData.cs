@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VoiceDetectionGoogle.Data
+namespace VoiceDetectionEtri.Data
 {
     public class VoiceEtriData
     {

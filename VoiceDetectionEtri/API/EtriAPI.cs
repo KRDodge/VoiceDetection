@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 /// </summary>
 
 
-namespace VoiceDetectionGoogle.API
+namespace VoiceDetectionEtri.API
 {
     public class EtriAPI
     {
@@ -38,11 +38,15 @@ namespace VoiceDetectionGoogle.API
 
         public string GetVoiceJsonRest(string _filePath)
         {
-            string url = "https://kakaoi-newtone-openapi.kakao.com/v1/recognize"; // HOST 및 URL
-            string rest_api_key = "22f264a793755a77e222af849f6ab5f2"; // 내 어플리케이션 => 어플선택 => 기본정보의 앱 키 > REST Key 값 부여            
+            string url = "http://aiopen.etri.re.kr:8000/WiseASR/Recognition"; // HOST 및 URL
+            string rest_api_key = "22f264a793755a77e222af849f6ab5f2"; // 내 어플리케이션 => 어플선택 => 기본정보의 앱 키 > REST Key 값 부여
+            String languageCode = "KOREAN";     // 언어 코드
+            String audioFilePath = "AUDIO_FILE_PATH";  // 녹음된 음성 파일 경로
+            String audioContents = null;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url); // 해당 URL로 네트웍을 만든다
-            request.Headers.Add("Authorization", rest_api_key); // 헤더에 옵션값을 추가한다.
+            request.Headers.Add("access_key", rest_api_key);
+            request.Headers.Add("language_code", languageCode);
             request.ContentType = "application/octet-stream";// 콘텐츠타입을 명시한다
             request.Method = "POST"; // get 으로 보낼지 post로 보낼지 명시한다.
 
