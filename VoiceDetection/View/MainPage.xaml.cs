@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 //using VoiceDetectionKakao.API;
-//using VoiceDetectionGoogle.API;
+using VoiceDetectionGoogle.API;
 using VoiceDetectionEtri.API;
 using VoiceDetection.Model;
 using NAudio.Wave;     
@@ -71,9 +71,10 @@ namespace VoiceDetection.View
         private void SpeachToText()
         {
             EtriAPI api = new EtriAPI();
-            string path = @"C:\Users\media\Documents\hello.wav";
+            string path = @"C:\Users\media\Documents\heykakao.wav";
+            //string result = api.GetVoiceJsonRest(path);
             string result = api.GetVoiceJsonRest(path);
-            
+
             SpeakTextBlock.Text = result;
 
             Console.WriteLine(result);

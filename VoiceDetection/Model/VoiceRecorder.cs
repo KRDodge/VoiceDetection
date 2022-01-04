@@ -34,7 +34,7 @@ namespace VoiceDetection.Model
         {
             sourceStream = new NAudio.Wave.WaveIn();
             sourceStream.DeviceNumber = _sourceNumber;
-            sourceStream.WaveFormat = new NAudio.Wave.WaveFormat(16000, NAudio.Wave.WaveIn.GetCapabilities(_sourceNumber).Channels);
+            sourceStream.WaveFormat = new NAudio.Wave.WaveFormat(16000, 1);
 
             sourceStream.DataAvailable += new EventHandler<NAudio.Wave.WaveInEventArgs>(sourceStream_DataAvailable);
             waveWriter = new NAudio.Wave.WaveFileWriter(@"C:\Users\media\Documents\test.wav", sourceStream.WaveFormat);

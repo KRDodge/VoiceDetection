@@ -95,29 +95,12 @@ namespace VoiceDetectionGoogle.API
                 Console.WriteLine(bucket.Name);
             }
 
-            string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
-            string FilePath = _file;
-            FileStream fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read);
-            byte[] fileData = new byte[fs.Length];
-            fs.Read(fileData, 0, fileData.Length);
+            FileStream fs = new FileStream(_file, FileMode.Open, FileAccess.Read);
+            byte[] bytes = new byte[fs.Length];
+            bytes = File.ReadAllBytes(_file);
             fs.Close();
 
-            string CRLF = "\r\n";
-            string postData = "--" + boundary + CRLF + "Content-Disposition: form-data; name=\"image\"; filename=\"";
-            postData += Path.GetFileName(FilePath) + "\"" + CRLF + "Content-Type: image/jpeg" + CRLF + CRLF;
-            string footer = CRLF + "--" + boundary + "--" + CRLF;
-
-            Stream DataStream = new MemoryStream();
-            DataStream.Write(Encoding.UTF8.GetBytes(postData), 0, Encoding.UTF8.GetByteCount(postData));
-            DataStream.Write(fileData, 0, fileData.Length);
-            DataStream.Write(Encoding.UTF8.GetBytes("\r\n"), 0, 2);
-            DataStream.Write(Encoding.UTF8.GetBytes(footer), 0, Encoding.UTF8.GetByteCount(footer));
-            DataStream.Position = 0;
-            byte[] formData = new byte[DataStream.Length];
-            DataStream.Read(formData, 0, formData.Length);
-            DataStream.Close();
-
-            RecognitionAudio audio4 = RecognitionAudio.FromBytes(formData);
+            RecognitionAudio audio4 = RecognitionAudio.FromBytes(bytes);
 
             //MemoryStream ms = new MemoryStream(binary);
 
