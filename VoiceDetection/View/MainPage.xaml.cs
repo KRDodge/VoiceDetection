@@ -71,7 +71,7 @@ namespace VoiceDetection.View
         private void SpeachToText()
         {
             EtriAPI api = new EtriAPI();
-            string path = @"C:\Users\media\Documents\heykakao.wav";
+            string path = @"C:\Users\media\Documents\test.wav";
             //string result = api.GetVoiceJsonRest(path);
             string result = api.GetVoiceJsonRest(path);
 
