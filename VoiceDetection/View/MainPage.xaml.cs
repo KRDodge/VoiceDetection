@@ -1,38 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-//using VoiceDetectionKakao.API;
 using VoiceDetectionGoogle.API;
 using VoiceDetectionEtri.API;
 using VoiceDetection.Model;
-using NAudio.Wave;     
-using NAudio.CoreAudioApi;
-using System.Windows.Controls;
+using System.Windows.Threading;
+using VoiceDetection.Model;
+
 
 namespace VoiceDetection.View
 {
     /// <summary>
     /// MainPage.xaml에 대한 상호 작용 논리
     /// </summary>
+    /// 
+
     public partial class MainPage : UserControl
     {
-        //private bool isRecording = false;
+        DispatcherTimer pollingTimer = null;
+        private APIEnum.APICompanies api = APIEnum.APICompanies.None;
 
         public MainPage()
         {
             InitializeComponent();
+
+            pollingTimer = new DispatcherTimer();
+            pollingTimer.Interval = TimeSpan.FromSeconds(14);
+            pollingTimer.Tick += new EventHandler(SpeakButtonClick);
 
             List<NAudio.Wave.WaveInCapabilities> sources = new List<NAudio.Wave.WaveInCapabilities>();
 
@@ -51,6 +45,18 @@ namespace VoiceDetection.View
             }
         }
 
+        private void EtriButtonClick(object sender, EventArgs e)
+        {
+            api = APIEnum.APICompanies.Etri;
+            APINameTextBlock.Text = "Etri";
+        }
+
+        private void GoogleButtonClick(object sender, EventArgs e)
+        {
+            api = APIEnum.APICompanies.Etri;
+            APINameTextBlock.Text = "Google";
+        }
+
         private void SpeakButtonClick(object sender, EventArgs e)
         {
             //SpeachToText();
@@ -59,20 +65,47 @@ namespace VoiceDetection.View
             VoiceRecorder recorder = VoiceRecorder.GetInstance();
             if (recorder.IsRecording == false) //녹음 시작
             {
+                RecordingTextBlock.Text = "Recording";
                 recorder.StartRecordVoice(InputListView.SelectedIndex) ;
+                pollingTimer.Stop();
+                pollingTimer.Start();
             }
             else if(recorder.IsRecording == true)
             {
+                RecordingTextBlock.Text = "";
                 recorder.StopRecordVoice();
-                SpeachToText();
+                if (api == APIEnum.APICompanies.None)
+                {
+                    return;
+                }
+                else if(api == APIEnum.APICompanies.Google)
+                {
+                    SpeachToTextGoogle();
+
+                }
+                else if(api == APIEnum.APICompanies.Etri)
+                {
+                    SpeachToTextEtri();
+
+                }
             }
         }
 
-        private void SpeachToText()
+        private void SpeachToTextGoogle()
+        {
+            GoogleAPI api = new GoogleAPI();
+            string path = @"C:\Users\media\Documents\test.wav";
+            string result = api.GetVoiceJsonRest(path);
+
+            SpeakTextBlock.Text = result;
+
+            Console.WriteLine(result);
+        }
+
+        private void SpeachToTextEtri()
         {
             EtriAPI api = new EtriAPI();
             string path = @"C:\Users\media\Documents\test.wav";
-            //string result = api.GetVoiceJsonRest(path);
             string result = api.GetVoiceJsonRest(path);
 
             SpeakTextBlock.Text = result;

@@ -48,6 +48,7 @@ namespace VoiceDetectionEtri.API
 
             FileStream audioFile = new FileStream(_filePath, FileMode.Open, FileAccess.Read);
             byte[]  bytes = File.ReadAllBytes(_filePath);
+            audioFile.Close();
 
             string audioContents = Convert.ToBase64String(bytes);
 

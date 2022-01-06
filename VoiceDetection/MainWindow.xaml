@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VoiceDetection"
         mc:Ignorable="d"
-        Title="MainWindow" WindowState="Normal" WindowStyle="None" Height="900" Width="1600"
+        Title="MainWindow" ResizeMode="CanMinimize" WindowState="Normal" WindowStyle="ThreeDBorderWindow" Height="900" Width="1600"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid x:Name="LayoutRoot">
         <ContentControl Content="{Binding CurrentViewModel}" />

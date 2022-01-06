@@ -17,5 +17,9 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <TextBlock Name="RecordingTextBlock"  HorizontalAlignment="Left" Margin="199,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button Name = "EtriButton" Content="Etri" HorizontalAlignment="Left" Margin="1438,30,0,0" VerticalAlignment="Top" Height="75" Width="107" Click="EtriButtonClick"/>
+        <Button Name = "GoogleButton"  Content="Google" HorizontalAlignment="Left" Margin="1278,30,0,0" VerticalAlignment="Top" Height="73" Width="100" Click="GoogleButtonClick"/>
+        <TextBlock Name="APINameTextBlock" HorizontalAlignment="Left" Margin="45,609,0,0" TextWrapping="Wrap" Text="None" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

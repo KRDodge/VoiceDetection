@@ -130,6 +130,7 @@
     <Compile Include="Control\GotoPage.cs" />
     <Compile Include="Control\ImageButton.cs" />
     <Compile Include="Control\SetMain.cs" />
+    <Compile Include="Model\APIEnum.cs" />
     <Compile Include="Model\VoiceRecorder.cs" />
     <Compile Include="ViewModel\MainPageModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

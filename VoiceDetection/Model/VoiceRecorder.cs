@@ -41,12 +41,6 @@ namespace VoiceDetection.Model
 
             sourceStream.StartRecording();
 
-            DispatcherTimer pollingTimer = new DispatcherTimer();
-            pollingTimer.Stop();
-            pollingTimer.Interval = TimeSpan.FromSeconds(14);
-            pollingTimer.Tick += new EventHandler(StopRecordVoice);
-            pollingTimer.Start();
-
             isRecording = true;
         }
 
