@@ -12,6 +12,7 @@ namespace VoiceDetection.Model
         { 
             Google,
             Etri,
+            Azure,
             None,
         }
 
